@@ -1,0 +1,207 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>cn.hiroz</groupId>
+  <artifactId>bloodrelationsanalysis</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <inceptionYear>2008</inceptionYear>
+  <properties>
+    <scala.version>2.11.8</scala.version>
+    <spark.version>2.4.4</spark.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <antlr4.version>4.7.1</antlr4.version>
+    <!-- Maven Plugins -->
+    <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
+    <maven.source.plugin.version>3.0.1</maven.source.plugin.version>
+    <maven.scala.plugin.version>2.15.2</maven.scala.plugin.version>
+    <timestamp>${maven.build.timestamp}</timestamp>
+    <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>scala-tools.org</id>
+      <name>Scala-Tools Maven2 Repository</name>
+      <url>http://scala-tools.org/repo-releases</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>scala-tools.org</id>
+      <name>Scala-Tools Maven2 Repository</name>
+      <url>http://scala-tools.org/repo-releases</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <dependencies>
+    <!-- Scala -->
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>${scala.version}</version>
+    </dependency>
+
+    <!--<dependency>-->
+      <!--<groupId>org.scala-lang.modules</groupId>-->
+      <!--<artifactId>scala-parser-combinators_2.11</artifactId>-->
+      <!--<version>1.1.1</version>-->
+    <!--</dependency>-->
+
+    <!-- Spark -->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.spark</groupId>-->
+      <!--<artifactId>spark-core_2.11</artifactId>-->
+      <!--<version>${spark.version}</version>-->
+    <!--</dependency>-->
+
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-sql_2.11</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-catalyst_2.11</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>antlr4</artifactId>
+      <version>${antlr4.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>antlr4-runtime</artifactId>
+      <version>${antlr4.version}</version>
+    </dependency>
+
+
+
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+    <!--<sourceDirectory>src/main/scala</sourceDirectory>-->
+    <!--<finalName>${project.artifactId}-${project.version}-${timestamp}</finalName>-->
+    <finalName>${project.artifactId}-${project.version}</finalName>
+    <plugins>
+      <!--<plugin>-->
+        <!--<artifactId>maven-assembly-plugin</artifactId>-->
+        <!--<version>3.1.0</version>-->
+        <!--<configuration>-->
+          <!--<descriptorRefs>-->
+            <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
+          <!--</descriptorRefs>-->
+        <!--</configuration>-->
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<id>make-assembly</id> &lt;!&ndash; this is used for inheritance merges &ndash;&gt;-->
+            <!--<phase>package</phase> &lt;!&ndash; bind to the packaging phase &ndash;&gt;-->
+            <!--<goals>-->
+              <!--<goal>single</goal>-->
+            <!--</goals>-->
+          <!--</execution>-->
+        <!--</executions>-->
+      <!--</plugin>-->
+
+      <!-- Java编译打包 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.plugin.version}</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.scala-tools</groupId>
+        <artifactId>maven-scala-plugin</artifactId>
+        <version>${maven.scala.plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <!--<configuration>-->
+          <!--<scalaVersion>${scala.version}</scalaVersion>-->
+          <!--<args>-->
+            <!--<arg>-target:jvm-1.5</arg>-->
+          <!--</args>-->
+        <!--</configuration>-->
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <configuration>
+          <downloadSources>true</downloadSources>
+          <buildcommands>
+            <buildcommand>ch.epfl.lamp.sdt.core.scalabuilder</buildcommand>
+          </buildcommands>
+          <additionalProjectnatures>
+            <projectnature>ch.epfl.lamp.sdt.core.scalanature</projectnature>
+          </additionalProjectnatures>
+          <classpathContainers>
+            <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
+            <classpathContainer>ch.epfl.lamp.sdt.launching.SCALA_CONTAINER</classpathContainer>
+          </classpathContainers>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4-maven-plugin</artifactId>
+        <version>${antlr4.version}</version>
+        <executions>
+          <execution>
+            <id>antlr</id>
+            <goals>
+              <goal>antlr4</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <outputDirectory>src/main/java</outputDirectory>
+          <visitor>true</visitor>
+          <treatWarningsAsErrors>true</treatWarningsAsErrors>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.scala-tools</groupId>
+        <artifactId>maven-scala-plugin</artifactId>
+        <configuration>
+          <scalaVersion>${scala.version}</scalaVersion>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>
